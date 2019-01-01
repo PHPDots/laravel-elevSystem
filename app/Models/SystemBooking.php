@@ -26,7 +26,7 @@ class SystemBooking extends Model
      * 
      * @var string
      */
-    protected $table = 'systembookings';
+    protected $table = TBL_SYSTEM_BOOKINGS;
 
     /**
      * @var array

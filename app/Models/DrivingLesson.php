@@ -27,6 +27,10 @@ class DrivingLesson extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $table = TBL_DRIVING_LESSONS;
+    
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
 
     /**
      * @var array

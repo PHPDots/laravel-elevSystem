@@ -1,0 +1,12 @@
+.success-msg
+{
+  color: #fff;
+  background-color: rgb(37, 197, 37) !important;
+  font-size: 14px;
+}
+.error-msg
+{
+  color: #fff;
+  background-color: #ff0000 !important;
+  font-size: 14px;
+}

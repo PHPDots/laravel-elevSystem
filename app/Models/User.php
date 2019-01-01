@@ -57,6 +57,10 @@ class User extends Authenticatable
      */
     protected $keyType = 'integer';
     protected $guard = "users";
+    protected $table = TBL_USERS;
+    
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
 
     /**
      * @var array
@@ -85,5 +89,11 @@ class User extends Authenticatable
     public function tncUsers()
     {
         return $this->hasMany('App\Models\TncUser');
+    }
+
+    public static function getTeacher($student)
+    {
+        $teacher = User::where('id',$student->teacher_id)->first();
+        return $teacher;
     }
 }

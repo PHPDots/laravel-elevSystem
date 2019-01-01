@@ -20,6 +20,8 @@ class TncUser extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $table = TBL_TNC_USERS;
+    public $timestamps = false;
 
     /**
      * @var array

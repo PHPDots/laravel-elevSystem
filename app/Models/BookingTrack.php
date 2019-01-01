@@ -40,6 +40,7 @@ class BookingTrack extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $table = TBL_BOOKING_TRACKS;
 
     /**
      * @var array
