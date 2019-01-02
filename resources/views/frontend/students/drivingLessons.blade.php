@@ -63,7 +63,7 @@
             serverSide: true,
             searching: false,
             ajax: {
-                "url": "{!! route($moduleRouteText.'.data') !!}",
+                "url": "{!! route('drivingLessons.data') !!}",
                 "data": function ( data ) 
                 {
                     //data.search_text = $("#search-frm input[name='search_text']").val();

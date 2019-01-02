@@ -22,6 +22,7 @@ class Page extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $table = TBL_PAGES;
 
     /**
      * @var array

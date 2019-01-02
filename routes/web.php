@@ -42,19 +42,35 @@ Route::group(['middleware' => 'auth'], function(){
 	
     Route::get('logout', 'LoginController@getLogout')->name("logout");
     Route::get('/dashboard', 'UsersController@dashboard')->name("dashboard");
-    
-//My Profile
-    Route::get('/myProfile', 'UsersController@myProfile')->name("myProfile");
-    Route::get('/myProfile/edit', 'UsersController@editProfile')->name("editProfile");
-    Route::post('/myProfile-data', 'UsersController@updateProfile')->name("updateProfile");
-
-//Driving Lessons
-    Route::any('/drivingLessons/data', 'DrivingLessonsController@data')->name('drivingLessons.data');
-    Route::resource('/drivingLessons', 'DrivingLessonsController');
 
 //Tnc 
     Route::get('/tnc', 'TncsController@userTerms')->name('userTerms');
     Route::post('/tnc-update', 'TncsController@userTermsUpdate')->name('userTermsUpdate');
+
+});
+
+//************************ FRONTEND	 ROUTE *************************//
+
+Route::group(['middleware' => 'auth','prefix' => $FRONTED_PREFIX], function(){
+
+    
+//My Profile
+    Route::get('/myProfile', 'frontend\StudentsController@myProfile')->name("myProfile");
+    Route::get('/myProfile/edit', 'frontend\StudentsController@editProfile')->name("editProfile");
+    Route::post('/myProfile-data', 'frontend\StudentsController@updateProfile')->name("updateProfile");
+
+//Driving Lessons
+    Route::get('/driving-lessons', 'frontend\StudentsController@drivingLessons')->name("drivingLessons");
+    Route::any('/driving-lessons/data', 'frontend\StudentsController@drivingLessonsData')->name("drivingLessons.data");
+
+//Course Times
+    Route::get('/course-times', 'frontend\StudentsController@courseTimes')->name("courseTimes");
+    Route::any('/course-times/data', 'frontend\StudentsController@courseTimesData')->name("courseTimes.data");
+
+//Documents
+    Route::get('/documents', 'frontend\StudentsController@documents')->name("documents");
+    Route::any('/documents/data', 'frontend\StudentsController@documentsData')->name("documents.data");
+
 	
 });
 

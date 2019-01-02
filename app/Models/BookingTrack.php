@@ -62,4 +62,6 @@ class BookingTrack extends Model
     {
         return $this->belongsTo('App\Models\Booking');
     }
+
+    
 }

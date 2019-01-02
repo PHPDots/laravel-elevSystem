@@ -63,30 +63,33 @@ class Booking extends Model
         return $this->hasMany('App\Models\BookingTrack');
     }
 
-    public static function getUserNextBooking($authUser)
+    public static function studentTotalBooking($userId)
     {
-        $currentDate    = date('Y-m-d H:i',time());
+        $bookings = Booking::join(TBL_BOOKING_TRACKS,TBL_BOOKING_TRACKS.'.booking_id',TBL_BOOKINGS.'.id')
+                ->where(TBL_BOOKING_TRACKS.'.student_id',$userId)
+                ->count();
+        return $bookings;
+    }
 
-        /*$sql = 'SELECT CONCAT_WS(  " ", `Booking`.`date`, SUBSTRING_INDEX( `BookingTrack`.`time_slot`,  "-", "1" ) ) AS book_date, `Booking`.`id` 
-            FROM `bookings` AS `Booking` INNER JOIN `booking_tracks` AS `BookingTrack` 
-            ON (`Booking`.`id` = `BookingTrack`.`booking_id`)  WHERE `student_id` = "'.$authUser.'" 
-            AND CONCAT_WS(  " ", `Booking`.`date`, SUBSTRING_INDEX( `BookingTrack`.`time_slot`,  "-", 1 ) ) >= "'.$currentDate.'"   
-            ORDER BY `Booking`.`date` ASC  LIMIT 1';*/
-        $booking = SystemBooking::select('*')
-                    ->where('student_id',$authUser)
-                    ->where('status','pending')
-                    ->where('start_time','>=',$currentDate)
-                    ->orderBy('start_time')
-                    ->first();
+    public static function studentNextBooking($userId)
+    {
+        $nextBooking = array();
+        $booking = Booking::join(TBL_BOOKING_TRACKS,TBL_BOOKING_TRACKS.'.booking_id',TBL_BOOKINGS.'.id')
+                ->where(TBL_BOOKING_TRACKS.'.student_id',$userId)
+                ->where(TBL_BOOKINGS.'.date','>=',date('Y-m-d',time()))
+                ->first();
 
-        ///$bookings = \DB::select($sql);
-        /*$bookings = Booking::selectRaw('CONCAT_WS(  " ", '.TBL_BOOKINGS.'.date, SUBSTRING_INDEX( '.TBL_BOOKING_TRACKS.'.time_slot,  "-", 1 ) ) as book_date')
-        ->join(TBL_BOOKING_TRACKS, TBL_BOOKING_TRACKS.'.booking_id', TBL_BOOKINGS.'.id')
-
-        ->where(\DB::raw('CONCAT_WS( " ", `bookings`.`date`, SUBSTRING_INDEX( `booking_tracks`.`time_slot`,  '-', 1 ) )'), '>=', $currentDate)
-        ->where(TBL_BOOKING_TRACKS.'.student_id', $authUser)
-        ->orderBy(TBL_BOOKINGS.'.date')
-        ->first();*/
-        return $booking;
+        if($booking)
+        {
+            $timeSlot = explode('-',$booking->time_slot);
+            if(is_array($timeSlot))
+            {
+              if($booking->date.' '.$timeSlot[0] >= date('Y-m-d H:i',time())) {
+                    $nextBooking = $booking;
+                }  
+            } 
+        }
+        
+        return $nextBooking;
     }
 }

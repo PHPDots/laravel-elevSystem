@@ -33,4 +33,40 @@ class SystemBooking extends Model
      */
     protected $fillable = ['booking_type', 'lesson_type', 'user_id', 'student_id', 'city_id', 'start_time', 'end_time', 'note', 'status', 'g_cal_id', 'created', 'modified'];
 
+    public static function getUserNextBooking($userId)
+    {
+        $booking = array();
+        $currentDate    = date('Y-m-d H:i',time());
+
+        /*$sql = 'SELECT CONCAT_WS(  " ", `Booking`.`date`, SUBSTRING_INDEX( `BookingTrack`.`time_slot`,  "-", "1" ) ) AS book_date, `Booking`.`id` 
+            FROM `bookings` AS `Booking` INNER JOIN `booking_tracks` AS `BookingTrack` 
+            ON (`Booking`.`id` = `BookingTrack`.`booking_id`)  WHERE `student_id` = "'.$userId.'" 
+            AND CONCAT_WS(  " ", `Booking`.`date`, SUBSTRING_INDEX( `BookingTrack`.`time_slot`,  "-", 1 ) ) >= "'.$currentDate.'"   
+            ORDER BY `Booking`.`date` ASC  LIMIT 1';*/
+        $systemBooking = SystemBooking::select('*')
+                    ->where('student_id',$userId)
+                    ->where('status','pending')
+                    ->where('start_time','>=',$currentDate)
+                    ->orderBy('start_time')
+                    ->first();
+        if($systemBooking)
+        {
+            $booking = $systemBooking;
+        }
+
+        ///$bookings = \DB::select($sql);
+        /*$bookings = Booking::selectRaw('CONCAT_WS(  " ", '.TBL_BOOKINGS.'.date, SUBSTRING_INDEX( '.TBL_BOOKING_TRACKS.'.time_slot,  "-", 1 ) ) as book_date')
+        ->join(TBL_BOOKING_TRACKS, TBL_BOOKING_TRACKS.'.booking_id', TBL_BOOKINGS.'.id')
+
+        ->where(\DB::raw('CONCAT_WS( " ", `bookings`.`date`, SUBSTRING_INDEX( `booking_tracks`.`time_slot`,  '-', 1 ) )'), '>=', $currentDate)
+        ->where(TBL_BOOKING_TRACKS.'.student_id', $userId)
+        ->orderBy(TBL_BOOKINGS.'.date')
+        ->first();*/
+        return $booking;
+    }
+    public static function getUserTotalBooking($userId)
+    {
+        return SystemBooking::where('student_id',$userId)->count();
+    }
+
 }
