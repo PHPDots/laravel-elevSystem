@@ -9,8 +9,12 @@ use App\Models\DrivingLesson;
 use App\Models\UserService;
 use App\Models\SystemBooking;
 use App\Models\LatestPayment;
-use \App\Models\Booking;
-use \App\Models\Page;
+use App\Models\BookingTrack;
+use App\Models\Booking;
+use App\Models\Page;
+use App\Models\City;
+use App\Models\Expence;
+use App\Models\Price;
 use Validator;
 
 class StudentsController extends Controller
@@ -214,6 +218,32 @@ class StudentsController extends Controller
         ->make(true);
     }
 
+    public function finances()
+    {
+        $data = array();
+        $studentAmount  = array();
+        $title = '';
+
+        $authUser = \Auth::user();
+        $data['pageTitle'] = $this->breadcrum('Din økonomi');
+        
+        $city = City::getUserCity($authUser);
+        $data['payments'] = LatestPayment::getUserPayments($authUser);
+        $data['systemBooking'] = SystemBooking::notYetPaidservices($authUser);
+
+        if($city)
+        {
+            $city->city_code = 71;
+            $title = '+'.$city->city_code."  ".$authUser->student_number."  ".$city->fik;
+        }
+        $data['stdTitle'] = $title;
+
+        $studentAmount = User::studentFinanceCalculation($authUser);
+        $data['studentAmount'] = $studentAmount;
+
+        return view($this->moduleViewName.'.finances',$data);
+    }
+
     private function breadcrum($case)
     {
         $pageTitle = array();
@@ -258,6 +288,13 @@ class StudentsController extends Controller
                 
                 $pageTitle[0] = array(
                     'name'  => __('Dokumenter'),
+                    'url'   => '#',
+                );
+                break;
+            case 'Din økonomi':
+                
+                $pageTitle[0] = array(
+                    'name'  => __('Din økonomi'),
                     'url'   => '#',
                 );
                 break;

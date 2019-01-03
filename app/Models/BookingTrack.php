@@ -63,5 +63,17 @@ class BookingTrack extends Model
         return $this->belongsTo('App\Models\Booking');
     }
 
+    public static function userFinanceBooking($authUser)
+    {
+        $bookingIds = \App\Models\Booking::select('id');
+        if($authUser->teacher_id != '')
+            $bookingIds = $bookingIds->where('user_id',$authUser->teacher_id);
+        else
+            $bookingIds = $bookingIds->where('user_id',$authUser->id);
+        $bookingIds = $bookingIds->groupBy('id')->get()->toArray();
+
+        $bookingTracks = BookingTrack::whereIn('booking_id',$bookingIds)->get();
+        return $bookingTracks;
+    }
     
 }

@@ -67,10 +67,12 @@ Route::group(['middleware' => 'auth','prefix' => $FRONTED_PREFIX], function(){
     Route::get('/course-times', 'frontend\StudentsController@courseTimes')->name("courseTimes");
     Route::any('/course-times/data', 'frontend\StudentsController@courseTimesData')->name("courseTimes.data");
 
+ //Finances
+    Route::get('/finances', 'frontend\StudentsController@finances')->name("finances");
+
 //Documents
     Route::get('/documents', 'frontend\StudentsController@documents')->name("documents");
     Route::any('/documents/data', 'frontend\StudentsController@documentsData')->name("documents.data");
-
 	
 });
 

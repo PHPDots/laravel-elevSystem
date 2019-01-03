@@ -21,7 +21,7 @@
         <a href="{{ route('courseTimes') }}"><i class="fa fa-car"></i> {{ __('Banetider') }}</a>
     </li>
     <li class="has-submenu">
-        <a href=""><i class="fa fa-money"></i> {{ __('Din Økonomi') }}</a>
+        <a href="{{ route('finances') }}"><i class="fa fa-money"></i> {{ __('Din Økonomi') }}</a>
     </li>
     <li class="has-submenu">
         <a href="{{ route('documents')}}"><i class="fa fa-list-alt"></i> {{ __('Dokumenter') }}</a>

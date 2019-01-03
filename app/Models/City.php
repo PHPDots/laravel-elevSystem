@@ -19,10 +19,24 @@ class City extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $table = TBL_CITY;
 
     /**
      * @var array
      */
     protected $fillable = ['city_code', 'name', 'slug', 'fik'];
 
+    public static function getUserCity($user)
+    {
+        $data = array();
+
+        $student_number = $user->student_number;
+        $city_id  = substr(trim($student_number), 2, -11);
+        $city = City::where('city_code',$city_id)->first();
+        if($city)
+        {
+            $data = $city;
+        }
+        return $data;    
+    }
 }

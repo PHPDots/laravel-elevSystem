@@ -69,4 +69,19 @@ class SystemBooking extends Model
         return SystemBooking::where('student_id',$userId)->count();
     }
 
+    public static function notYetPaidservices($user)
+    {
+        $currentDate    = date('Y-m-d H:i:s',time());
+
+        $systemBooking = SystemBooking::where('student_id',$user->id)
+                ->where('status', '!=', 'delete')
+                ->where('status', '!=', 'approved')
+                ->where('status', '!=', 'unapproved')
+                //->where('start_time', '>=',$currentDate)
+                ->orderBy('start_time')
+                ->get();
+
+        return $systemBooking;
+            
+    }
 }

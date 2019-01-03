@@ -20,6 +20,7 @@ class UserService extends Model
     /**
      * @var array
      */
+    protected $table = TBL_USER_SERVICES;
     protected $fillable = ['user_id', 'debtor_registration_id', 'posting_date', 'qty', 'price', 'total_price', 'description', 'created_at'];
 
 }
