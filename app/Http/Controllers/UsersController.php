@@ -22,7 +22,7 @@ class UsersController extends Controller
         if($authUser->role == STUDENT)
         {
             if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
-
+            $data['nextBooking'] = \App\Models\Booking::studentNextBooking($authUser->Id);
             return view('frontend.dashboard',$data);
         }
         return view('admin.dashboard',$data);

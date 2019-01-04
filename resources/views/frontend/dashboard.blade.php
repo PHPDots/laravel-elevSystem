@@ -24,13 +24,14 @@
         $class = ($authUser->balance < 0) ? 'green' : 'red'; 
         if($message != '') { ?>
         <div class="<?php echo $class; ?>-block col-xs-12">
-            <h3><?php echo $message; ?></h3>
+            <h3>{{ $message }}</h3>
         </div>
         <?php } ?>
         <?php if(isset($nextBooking) && !empty($nextBooking)) { ?>
         <div class="white-block col-xs-12">
-            <h3><?php echo __('Din næste køretid :'); ?><br/>
-            <span><?php echo (isset($nextBooking)) ? date('d.m.Y',strtotime($nextBooking)) : '';?><br/><?php echo (isset($nextBooking)) ? date('H:i',strtotime($nextBooking)) : '';?></span></h3>
+            <h3>{{ __('Din næste køretid :') }}<br/>
+                <span>{{ date('d/m/Y',strtotime($nextBooking->date)) }} <br/> {{ date('H:i',strtotime($nextBooking->time_slot)) }}</span>
+            </h3>
         </div>
         <?php } ?>
     </div>
