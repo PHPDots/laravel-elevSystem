@@ -35,7 +35,7 @@
         <div class="col-xs-12 grey-block" >
             <div class="col-xs-12 col-md-4 profile_pic">
                 <?php if(isset($teacher->avatar_id) && $teacher->avatar_id != 0){ ?>
-                    <img src="{{ $teacher->avatar_id }}" />
+                    <img src="{{ $teacherImg }}" />
                 <?php
                 }else{ ?>
                     <img src="{{ asset('img/default-medium.png')}}" />

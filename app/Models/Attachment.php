@@ -28,21 +28,17 @@ class Attachment extends Model
 
     public static function getAttachment($attachment_id)
     {
+        $img = '';
         $fileEntry      = Attachment::find($attachment_id);
-        $file           = Attachment::getUploadPath('attachment') .'/'. Attachment::getFileName($attachment_id);
-
-        $fileData       = file_get_contents($file);
-        
-
-        $contentType = $fileEntry->mime_type; 
-        $filesize = strlen($fileData); 
-        
-        /*header("Content-Type:{$contentType}");
-        header("Content-Length:{$filesize}");
-        header('Content-Type: application/x-download');
-        header('Content-Disposition: attachment; filename="'.$fileEntry->filename.'"');
-        die;*/
-       // echo '<pre/>'; print_r($fileData); die;
+       // $file           = Attachment::getUploadPath('attachment') .'/'. Attachment::getFileName($attachment_id);
+        if($fileEntry)
+        {
+            $img = asset('uploads/users/'.$fileEntry->filename);
+        }
+        else{
+            $img = asset('/img/default-medium.png');
+        }
+        return $img;
     }
 
     public static function getUploadPath($objectType)

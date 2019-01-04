@@ -34,10 +34,10 @@ class StudentsController extends Controller
         $student = \Auth::user();
 
         $data['user'] = $student;
-        $data['teacher'] = User::getTeacher($student);
+        $teacher = User::getTeacher($student);
+        $data['teacher'] = $teacher;
         $data['pageTitle'] = $this->breadcrum('myProfile');
-
-      ///  $pic = \App\Models\Attachment::getAttachment(16); die;
+        $data["teacherImg"] = \App\Models\Attachment::getAttachment(isset($teacher->avatar_id)?$teacher->avatar_id:0);
 
         return view($this->moduleViewName.'.myProfile',$data);
     }
