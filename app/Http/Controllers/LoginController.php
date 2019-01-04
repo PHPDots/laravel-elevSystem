@@ -74,6 +74,10 @@ class LoginController extends Controller
                         return ['status' => 2, 'msg' => 'tnc'];
                     }
                 }
+                if($user->role == STUDENT && $user->is_login_firsttime == 1)
+                {
+                    \session()->put(['is_login_firsttime' => 1]);
+                }
             }
             if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password'),'is_completed'=>'!= 2']))
             {
@@ -91,6 +95,10 @@ class LoginController extends Controller
                     {
                         return ['status' => 2, 'msg' => 'tnc'];
                     }
+                }
+                if($user->role == STUDENT && $user->is_login_firsttime == 1)
+                {
+                    \session()->put(['is_login_firsttime' => 1]);
                 }
             }
         }

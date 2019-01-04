@@ -20,7 +20,11 @@ class UsersController extends Controller
         $authUser = \Auth::user();
 
         if($authUser->role == STUDENT)
+        {
+            if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
             return view('frontend.dashboard',$data);
+        }
         return view('admin.dashboard',$data);
     }
 

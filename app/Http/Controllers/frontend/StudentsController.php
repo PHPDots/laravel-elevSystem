@@ -27,7 +27,9 @@ class StudentsController extends Controller
     }
 
     public function myProfile()
-    {        
+    {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+        
         $data = array();
         $student = \Auth::user();
 
@@ -35,11 +37,15 @@ class StudentsController extends Controller
         $data['teacher'] = User::getTeacher($student);
         $data['pageTitle'] = $this->breadcrum('myProfile');
 
+      ///  $pic = \App\Models\Attachment::getAttachment(16); die;
+
         return view($this->moduleViewName.'.myProfile',$data);
     }
 
     public function editProfile()
     {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
         $data = array();
         $student = \Auth::user();
 
@@ -95,6 +101,8 @@ class StudentsController extends Controller
 
     public function drivingLessons()
     {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
         $data = array();
         $authUser = \Auth::user();
 
@@ -155,6 +163,8 @@ class StudentsController extends Controller
 
     public function courseTimes()
     {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
         $data = array();
         $authUser = \Auth::user();
 
@@ -187,6 +197,8 @@ class StudentsController extends Controller
 
     public function documents()
     {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
     	$data = array();
     	$authUser = \Auth::user();
 
@@ -220,6 +232,8 @@ class StudentsController extends Controller
 
     public function finances()
     {
+        if(\App\Models\Custom::isUserFirstTimeLogin()){return redirect()->route('changePassword');}
+
         $data = array();
         $studentAmount  = array();
         $title = '';
@@ -242,6 +256,56 @@ class StudentsController extends Controller
         $data['studentAmount'] = $studentAmount;
 
         return view($this->moduleViewName.'.finances',$data);
+    }
+
+    public function changePassword()
+    {
+        $data = array();
+        $data['pageTitle'] = $this->breadcrum('changePassword');
+        return view($this->moduleViewName.'.changePassword',$data);
+    }
+
+    public function changePasswordData(Request $request)
+    {
+        $status = 1;
+        $msg = "Brugeren er opdateret";
+        
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        if($validator->fails())
+        {
+            $messages = $validator->messages();
+            
+            $status = 0;
+            $msg = "";
+            
+            foreach ($messages->all() as $message) 
+            {
+                $msg .= $message . "<br />";
+            }                        
+        }
+        else
+        {
+            $user = User::find(\Auth::user()->id);
+            if(!$user){
+                return ['status' => 0, 'msg' => 'User not found'];
+            }
+
+            $password = $request->get("password");
+                        
+            $user->is_login_firsttime = 0;
+            $user->status = 'active';
+            if($password)
+                $user->password = bcrypt($password);
+            $user->save();
+
+            \session()->put(['is_login_firsttime'=>0]);
+        }
+
+        return ['status' => $status, 'msg' => $msg];
     }
 
     private function breadcrum($case)
@@ -298,8 +362,22 @@ class StudentsController extends Controller
                     'url'   => '#',
                 );
                 break;
+            case 'changePassword':
+                
+                $pageTitle[0] = array(
+                    'name' =>ucfirst($authUser->firstname).' '.ucfirst($authUser->lastname),
+                    'url'   => route('myProfile'),
+                );
+
+                $pageTitle[1] = array(
+                    'name' => __('Rediger'),
+                    'url'   => '#',
+                );
+                break;
         }
 
         return $pageTitle;
     }
+
+
 }

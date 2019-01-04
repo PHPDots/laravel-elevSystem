@@ -58,6 +58,8 @@ Route::group(['middleware' => 'auth','prefix' => $FRONTED_PREFIX], function(){
     Route::get('/myProfile', 'frontend\StudentsController@myProfile')->name("myProfile");
     Route::get('/myProfile/edit', 'frontend\StudentsController@editProfile')->name("editProfile");
     Route::post('/myProfile-data', 'frontend\StudentsController@updateProfile')->name("updateProfile");
+    Route::get('/changePassword', 'frontend\StudentsController@changePassword')->name("changePassword");
+    Route::post('/changePassword/data', 'frontend\StudentsController@changePasswordData')->name("changePassword.data");
 
 //Driving Lessons
     Route::get('/driving-lessons', 'frontend\StudentsController@drivingLessons')->name("drivingLessons");
