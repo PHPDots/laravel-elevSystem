@@ -28,7 +28,7 @@
             <div class="mainNavigation nosidebar close-menu">
                 <div class="innerNavigation">
 
-                    @include('admin.includes.sidebar')   
+                    @include('admin.includes.sidebar')
 
                 </div>
             </div>
