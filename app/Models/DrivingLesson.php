@@ -42,15 +42,16 @@ class DrivingLesson extends Model
         $data = array();
 
         $drivingLessons = DrivingLesson::where('student_id',$user->id)
-        /*->where(function ($drivingLessons){
-            $drivingLessons->where('type', 'driving');
-            $drivingLessons->whereNull('status');
-        })
         ->where(function ($drivingLessons){
-            $drivingLessons->where('type', 'test');
-            $drivingLessons->where('status','confirmed');
-        })*/
+            $drivingLessons->where('type', 'driving')
+            ->whereNull('status');
+        })
+        ->orWhere(function ($drivingLessons){
+            $drivingLessons->where('type', 'test')
+            ->where('status','confirmed');
+        })
         ->get();
+ 
         if($drivingLessons)
         {
             foreach ($drivingLessons as $key => $value)

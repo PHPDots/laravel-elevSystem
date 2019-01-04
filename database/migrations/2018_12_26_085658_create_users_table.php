@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration {
 			$table->string('nick_name_user', 6)->nullable();
 			$table->string('nick_name_company', 6)->nullable();
 			$table->string('phone_no', 256);
-			$table->string('role', 256)->index('role');
+			$table->string('role', 50)->index('role');
 			$table->string('status', 256)->default('active');
 			$table->string('activation_key', 256)->nullable();
 			$table->string('student_number', 20)->nullable();
