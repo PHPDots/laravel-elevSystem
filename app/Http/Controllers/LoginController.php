@@ -126,7 +126,7 @@ class LoginController extends Controller
         
        // \sesion()->put('is_login_firsttime',0);
 
-        return redirect('admin');
+        return redirect('/');
     } 
     
     public function forgotPassword()

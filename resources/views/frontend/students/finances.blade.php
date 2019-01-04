@@ -23,22 +23,22 @@
 		                </tr>
 		                <?php 
 		                $i = 1;
+		                $g_total = 0;
 		                if(!empty($studentAmount)) {
-		                    $g_total = 0;
 		                    foreach($studentAmount as $student) {
 		                        ?>
 		                        <tr class="<?php echo ($i%2==0)?'even':'odd'; ?>" align="center">
 		                            <td align="left">
-		                                <?php echo $student['count']; ?>
+		                                {{ $student['count'] }}
 		                            </td>
 		                            <td align="left">
-		                                <?php echo $student['text']; ?>
+		                            	{{ $student['text'] }}
 		                            </td>
 		                            <td align="left">
-		                                <?php echo $student['date']; ?>
+		                                {{ $student['date'] }}
 		                            </td>
 		                            <td align="right">
-		                                <?php echo $student['price']; ?>
+		                                {{ $student['price'] }}
 		                            </td>
 		                        </tr>
 		                        <?php   
