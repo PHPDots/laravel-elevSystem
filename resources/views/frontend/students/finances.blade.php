@@ -77,14 +77,14 @@
 
 		                <?php $i=0; $g_total_1 = 0;?>
 		                
-		                @if(!empty($payments))
+		                @if(!empty($payments) && is_array($payments) && count($payments) > 0)
 			                @foreach ($payments as $key => $payment)
 			                    <tr class="<?php echo ($i++%2==0)?'even':'odd'; ?> " align="center" >
 			                        <td align="left">
-			                            {{ date('d.m.Y',strtotime($payment->PosteringsDato)) }}
+			                            {{ date('d.m.Y',strtotime($payment['PosteringsDato'])) }}
 			                        </td>
 			                        <td align="right">
-			                            <?php echo $tmp_g_total_1 = round($payment->Kredit); ?>
+			                            <?php echo $tmp_g_total_1 = round($payment['Kredit']); ?>
 			                            <?php $g_total_1 = $g_total_1 + $tmp_g_total_1; ?>
 			                        </td>
 			                    </tr>    
